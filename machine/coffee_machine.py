@@ -156,38 +156,36 @@ class CoffeeMachine:
 
         return missing_ingredients
 
-    def _enough_ingredients_to_make_coffee(self, amount_of_ingredients_in_machine, amount_of_ingredients_needed) -> int:
-            """
-            Checks if there are enough ingredients in the coffee machine to make X cups of coffee.
+    def _enough_ingredients_to_make_coffee(self, dict_ingredients_to_make_one_cup) -> bool:
+        """
+        Checks if there are enough ingredients in the machine to make a cup of coffee.
 
-            Args:
-                amount_of_ingredients_in_machine (dict): A dictionary representing the amount of each ingredient in the machine.
-                amount_of_ingredients_needed (dict): A dictionary representing the amount of each ingredient needed to make coffee.
+        This method iterates over the keys in the `amount_of_ingredients_in_machine` dictionary.
+        For each key, it checks if the value (amount of that ingredient in the machine) is greater than or equal to
+        the corresponding value in the `dict_ingredients_to_make_one_cup` dictionary (amount of that ingredient needed to make a cup of coffee).
+        If this is true for all keys, the method returns True, indicating that there are enough ingredients to make a cup of coffee.
+        If this is not true for at least one key, the method returns False.
 
-            Returns:
-                int: The maximum number of cups of coffee that can be made with the available ingredients.
-            """
+        Args:
+            dict_ingredients_to_make_one_cup (dict): A dictionary representing the amount of each ingredient needed to make a cup of coffee.
 
-            enough_contents = True
-            cups_mach_can_make = 0
-            cups = 1
-            while enough_contents:
-                enough_contents = all(
-                    amount_of_ingredients_in_machine[key] >= amount_of_ingredients_needed[key] * cups
-                    for key in amount_of_ingredients_needed
-                )
-                if enough_contents:
-                    cups_mach_can_make = cups
-                    cups += 1
-
-            return cups_mach_can_make
+        Returns:
+            bool: True if there are enough ingredients to make a cup of coffee, False otherwise.
+        """
+        return all(
+            self.amount_of_ingredients_in_machine[key] >= dict_ingredients_to_make_one_cup[key]
+            for key in self.amount_of_ingredients_in_machine
+        )
 
     def __str__(self):
-        return f"Water: {self.amount_of_ingredients_in_machine['water']}\n" \
-               f"Milk: {self.amount_of_ingredients_in_machine['milk']}\n" \
-               f"Coffee Beans: {self.amount_of_ingredients_in_machine['coffee_beans']}\n" \
-               f"Cups: {self.cups_needed}\n" \
-               f"Cost: {self.cost}"
+        return (
+            f"\nThe coffee machine has:\n"
+            f"{self.amount_of_ingredients_in_machine['water']} ml of water\n"
+            f"{self.amount_of_ingredients_in_machine['milk']} ml of milk\n"
+            f"{self.amount_of_ingredients_in_machine['coffee_beans']} g of coffee beans\n"
+            f"{self.disposable_cups} disposable cups\n"
+            f"${self.total_money} of money"
+        )
 
 
 if __name__ == "__main__":
