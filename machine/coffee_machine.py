@@ -125,21 +125,36 @@ class CoffeeMachine:
             print("No, I can make only 0 cups of coffee")
             return
 
-            left_over_ingredients = {}
+        if self._enough_ingredients_to_make_coffee(list_of_ingredients_needed):
+            print("I have enough resources, making you a coffee!")
             for key, value in self.amount_of_ingredients_in_machine.items():
-                if value >= self.amount_of_ingredients_needed[key]:
-                    left_over_ingredients[key] = value - self.amount_of_ingredients_needed[key]
-                else:
-                    cups = self._enough_ingredients_to_make_coffee(self.amount_of_ingredients_in_machine,
-                                                                   self.one_cup_coffee_ingredients)
-                    print(f"No, I can make only {cups} cups of coffee")
-                    return
+                current_coffee_ingredient = list_of_ingredients_needed[key]
+                if value >= current_coffee_ingredient:
+                    self.amount_of_ingredients_in_machine[key] -= current_coffee_ingredient
 
-            extra_cups = self._enough_ingredients_to_make_coffee(left_over_ingredients, self.one_cup_coffee_ingredients)
-            if extra_cups > 0:
-                print(f"Yes, I can make that amount of coffee (and even {extra_cups} more than that)")
-            else:
-                print("Yes, I can make that amount of coffee")
+            self.total_money += coffee_price
+            self.disposable_cups -= 1
+        else:
+            missing_ingredients = self._check_missing_ingredient(list_of_ingredients_needed)
+            for ingredient in missing_ingredients:
+                print(f"Sorry, not enough {ingredient}!")
+
+    def _check_missing_ingredient(self, list_of_ingredients_needed: dict):
+        """
+        Checks which ingredients are missing to make the desired amount of coffee.
+
+        Args:
+            list_of_ingredients_needed (dict): A dictionary representing the amount of each ingredient needed to make coffee.
+
+        Returns:
+            str: A message indicating the missing ingredients.
+        """
+        missing_ingredients = []
+        for key, value in list_of_ingredients_needed.items():
+            if self.amount_of_ingredients_in_machine[key] < value:
+                missing_ingredients.append(key)
+
+        return missing_ingredients
 
     def _enough_ingredients_to_make_coffee(self, amount_of_ingredients_in_machine, amount_of_ingredients_needed) -> int:
             """
