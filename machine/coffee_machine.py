@@ -111,16 +111,19 @@ class CoffeeMachine:
         """
         return sum(self.amount_of_ingredients_in_machine.values())
 
-    
-    def _can_make_coffee(self):
-            """
-            Checks if the coffee machine has enough ingredients to make the desired amount of coffee.
-            If there are enough ingredients, it prints a message indicating the number of cups that can be made.
-            If there are not enough ingredients, it prints a message indicating the maximum number of cups that can be made.
-            """
-            if self._sum_of_machine_ingredients() == 0 and self.cups_needed > 0:
-                print("No, I can make only 0 cups of coffee")
-                return
+    def _can_make_coffee(self, list_of_ingredients_needed: dict, coffee_price: int):  # KEEP
+        """
+        Checks if the coffee machine has enough ingredients to make the desired amount of coffee.
+        If there are enough ingredients, it prints a message indicating the number of cups that can be made.
+        If there are not enough ingredients, it prints a message indicating the maximum number of cups that can be made.
+        """
+        if self._sum_of_machine_ingredients() == 0:
+            print("No, I can make only 0 cups of coffee")
+            return
+
+        if self.disposable_cups == 0:
+            print("No, I can make only 0 cups of coffee")
+            return
 
             left_over_ingredients = {}
             for key, value in self.amount_of_ingredients_in_machine.items():
