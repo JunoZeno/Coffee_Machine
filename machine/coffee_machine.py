@@ -34,41 +34,70 @@ class CoffeeMachine:
             else:
                 print("Invalid choice")
 
-    def _calculate_ingredients_needed(self, one_cup_ingredients: dict, cups_to_make: int):
+    def buy_coffee(self):
         """
-        Calculates the amount of ingredients needed to make a specified number of cups of coffee.
+        Allows the user to buy a cup of coffee.
 
-        Args:
-            one_cup_ingredients (dict): A dictionary containing the ingredients needed for one cup of coffee.
-            cups_to_make (int): The number of cups of coffee to make.
-
-        Returns:
-            None
+        The user is prompted to choose a type of coffee (espresso, latte, or cappuccino).
+        If the user enters an invalid choice, they are prompted again until a valid choice is made.
+        Once a valid choice is made, the method checks if the machine can make the chosen coffee.
+        If it can, the coffee is made and the method ends.
+        If it can't, the user is informed and the method ends.
         """
-        for key, value in one_cup_ingredients.items():
-            if cups_to_make > 0:
-                self.amount_of_ingredients_needed[key] = value * cups_to_make
+        selection_complete = False
+        while not selection_complete:
+            user_coffee = input("\nWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main "
+                                "menu:\n")
 
-    def _check_if_zero_cups(self):
-            """
-            Checks if the number of cups needed is zero and determines if the coffee machine has enough ingredients to make that amount of coffee.
+            if str(user_coffee).lower().strip() == "back":
+                break
 
-            Returns:
-                None
-            """
-            if self.cups_needed == 0:
-                enough_contents = all(
-                    self.amount_of_ingredients_in_machine[key] >= self.one_cup_coffee_ingredients[key]
-                    for key in self.one_cup_coffee_ingredients
-                )
-                total_contents = self._sum_of_machine_ingredients()
+            try:
+                user_coffee = int(user_coffee)
+            except ValueError:
+                print("Invalid choice")
+                continue
 
-                if enough_contents:
-                    print("Yes, I can make that amount of coffee (and even 1 more than that)")
-                elif total_contents == 0:
-                    print("Yes, I can make that amount of coffee ")
-                else:
-                    print("No, I can't make that amount of coffee")
+            if user_coffee == 1:
+                espresso = Espresso()
+                self._can_make_coffee(espresso.ingredients, espresso.price)
+                selection_complete = True
+            elif user_coffee == 2:
+                latte = Latte()
+                self._can_make_coffee(latte.ingredients, latte.price)
+                selection_complete = True
+            elif user_coffee == 3:
+                cappuccino = Cappuccino()
+                self._can_make_coffee(cappuccino.ingredients, cappuccino.price)
+                selection_complete = True
+            else:
+                print("Invalid choice")
+
+    def fill_machine(self):
+        """
+           Fills the coffee machine with the specified amounts of water, milk, coffee beans, and disposable cups.
+
+           The user is prompted to enter the amount of each ingredient they want to add.
+           The entered amounts are then added to the current amounts in the coffee machine.
+        """
+        water = int(input("\nWrite how many ml of water you want to add:\n> "))
+        milk = int(input("Write how many ml of milk you want to add:\n> "))
+        coffee_beans = int(input("Write how many grams of coffee beans you want to add:\n> "))
+        disposable_cups = int(input("Write how many disposable cups you want to add:\n> "))
+
+        self.amount_of_ingredients_in_machine["water"] += water
+        self.amount_of_ingredients_in_machine["milk"] += milk
+        self.amount_of_ingredients_in_machine["coffee_beans"] += coffee_beans
+        self.disposable_cups += disposable_cups
+
+    def take_money(self):
+        """
+        Allows the user to take all the money from the coffee machine.
+
+        The total amount of money in the machine is printed and then set to zero.
+        """
+        print(f"I gave you ${self.total_money}")
+        self.total_money = 0
 
     def _sum_of_machine_ingredients(self):
             """
