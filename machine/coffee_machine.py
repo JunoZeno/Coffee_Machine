@@ -100,13 +100,16 @@ class CoffeeMachine:
         self.total_money = 0
 
     def _sum_of_machine_ingredients(self):
-            """
-            Calculates the total sum of all ingredients in the coffee machine.
+        """
+        Calculates the total sum of all ingredients in the coffee machine.
 
-            Returns:
-                int: The sum of all ingredients in the coffee machine.
-            """
-            return sum(self.amount_of_ingredients_in_machine.values())
+        This method iterates over the values in the `amount_of_ingredients_in_machine` dictionary and sums them up.
+        The sum represents the total quantity of all ingredients in the machine.
+
+        Returns:
+            int: The sum of all ingredients in the coffee machine.
+        """
+        return sum(self.amount_of_ingredients_in_machine.values())
 
     
     def _can_make_coffee(self):
