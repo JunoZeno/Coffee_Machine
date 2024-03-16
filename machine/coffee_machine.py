@@ -2,24 +2,37 @@ from coffee.coffee import Coffee
 
 
 class CoffeeMachine:
-    def __init__(self, water, milk, coffee_beans, cups, cost=0):
-        self.cups_needed: int = cups
-        self.amount_of_ingredients_in_machine = {"water": water, "milk": milk, "coffee_beans": coffee_beans}
-        self.cost: float = cost
+    def __init__(self, water, milk, coffee_beans, total_money, disposable_cups):
+        """
+        Initializes the CoffeeMachine class with the given parameters.
 
-        self.new_coffee = None
-        self.one_cup_coffee_ingredients = {"water": 200, "milk": 50, "coffee_beans": 15}
-        self.amount_of_ingredients_needed = {}
+        Args:
+            water (int): The amount of water in the machine.
+            milk (int): The amount of milk in the machine.
+            coffee_beans (int): The amount of coffee beans in the machine.
+            total_money (float): The total money in the machine.
+            disposable_cups (int): The number of disposable cups in the machine.
+        """
+        self.amount_of_ingredients_in_machine: dict = {"water": water, "milk": milk, "coffee_beans": coffee_beans}
+        self.total_money: float = total_money
+        self.disposable_cups: int = disposable_cups
+        self.one_cup_coffee_ingredients = None
 
-    def check_machine_resources(self):
-        # Check if the machine has enough resources to make the coffee
-        self._calculate_ingredients_needed(self.one_cup_coffee_ingredients, self.cups_needed)
-        self._check_if_zero_cups()
-        self._can_make_coffee()
+        while True:
+            user_choice = input("\nWrite action (buy, fill, take, remaining, exit):\n").strip().lower()
 
-    def brew_coffee(self):
-        # new_coffee = Coffee()
-        pass
+            if user_choice == "buy":
+                self.buy_coffee()
+            elif user_choice == "fill":
+                self.fill_machine()
+            elif user_choice == "take":
+                self.take_money()
+            elif user_choice == "remaining":
+                print(self)
+            elif user_choice == "exit":
+                break
+            else:
+                print("Invalid choice")
 
     def _calculate_ingredients_needed(self, one_cup_ingredients: dict, cups_to_make: int):
         """
