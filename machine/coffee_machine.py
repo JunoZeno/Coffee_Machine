@@ -1,4 +1,4 @@
-from coffee.coffee import Coffee
+from coffee.coffee import Espresso, Latte, Cappuccino
 
 
 class CoffeeMachine:
