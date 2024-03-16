@@ -189,10 +189,11 @@ class CoffeeMachine:
 
 
 if __name__ == "__main__":
-    water_needed = int(input("Write how many ml of water the coffee machine has:\n"))
-    milk_needed = int(input("Write how many ml of milk the coffee machine has:\n"))
-    coffee_beans_needed = int(input("Write how many grams of coffee beans the coffee machine has:\n"))
-    cups_needed = int(input("Write how many cups of coffee you will need:\n"))
+    starting_water = 400
+    starting_milk = 540
+    starting_coffee_beans = 120
+    starting_total_money = 550
+    starting_disposable_cups = 9
 
-    coffee_machine = CoffeeMachine(water_needed, milk_needed, coffee_beans_needed, cups_needed)
-    coffee_machine.check_machine_resources()
+    coffee_machine = CoffeeMachine(starting_water, starting_milk, starting_coffee_beans, starting_total_money,
+                                   starting_disposable_cups)
